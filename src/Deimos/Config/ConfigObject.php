@@ -103,6 +103,11 @@ class ConfigObject implements \Iterator
      */
     public function get($path = null, $default = null)
     {
+        if (!$this->loaded)
+        {
+            $this->rewind();
+        }
+
         return $this->helper()->arr()
             ->get($this->storage, $path, $default);
     }

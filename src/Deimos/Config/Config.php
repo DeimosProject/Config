@@ -108,10 +108,10 @@ class Config extends \ArrayIterator
 
         if (!isset($this->configure[$configName]))
         {
-            $builder = $this->builder;
-            $path    = $this->getPath($configName);
+            $builder    = $this->builder;
+            $pathString = $this->getPath($configName);
 
-            $this->configure[$configName] = new ConfigObject($builder, $path);
+            $this->configure[$configName] = new ConfigObject($builder, $pathString);
         }
 
         /**

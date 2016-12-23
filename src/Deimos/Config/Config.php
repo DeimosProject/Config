@@ -121,7 +121,7 @@ class Config extends \ArrayIterator
          */
         $configObject = $this->configure[$configName];
 
-        if ($path !== null)
+        if ($path !== false)
         {
             return $configObject->get($path);
         }

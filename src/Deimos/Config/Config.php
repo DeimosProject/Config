@@ -104,7 +104,9 @@ class Config extends \ArrayIterator
      */
     public function get($name)
     {
-        list ($configName, $path) = $this->slice($name);
+        $slice      = $this->slice($name);
+        $configName = current($slice);
+        $path       = next($slice);
 
         if (!isset($this->configure[$configName]))
         {

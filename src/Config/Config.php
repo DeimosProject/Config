@@ -7,6 +7,8 @@ use Deimos\Builder\Builder;
 class Config extends \ArrayIterator
 {
 
+    use Helper;
+
     /**
      * @var string
      */
@@ -50,6 +52,8 @@ class Config extends \ArrayIterator
      * @param $name
      *
      * @return ConfigObject|mixed
+     *
+     * @throws \InvalidArgumentException
      */
     public function __get($name)
     {
@@ -81,10 +85,14 @@ class Config extends \ArrayIterator
      * @param $name
      *
      * @return bool
+     *
+     * @throws \InvalidArgumentException
      */
     public function exists($name)
     {
-        return file_exists($this->getPath($name));
+        $path = $this->getPath($name);
+
+        return $this->helper()->file()->isFile($path);
     }
 
     /**
@@ -101,6 +109,8 @@ class Config extends \ArrayIterator
      * @param $name
      *
      * @return ConfigObject|mixed
+     *
+     * @throws \InvalidArgumentException
      */
     public function get($name)
     {

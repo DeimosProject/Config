@@ -3,10 +3,11 @@
 namespace Deimos\Config;
 
 use Deimos\Builder\Builder;
-use Deimos\Helper\Helper;
 
 class ConfigObject implements \Iterator
 {
+
+    use Helper;
 
     /**
      * @var string
@@ -17,11 +18,6 @@ class ConfigObject implements \Iterator
      * @var bool
      */
     protected $loaded;
-
-    /**
-     * @var bool
-     */
-    protected $builder;
 
     /**
      * @var array
@@ -45,6 +41,8 @@ class ConfigObject implements \Iterator
      * @param $path string
      *
      * @return mixed
+     *
+     * @throws \InvalidArgumentException
      */
     public function __get($path)
     {
@@ -66,6 +64,8 @@ class ConfigObject implements \Iterator
      * @param $name
      *
      * @return bool
+     *
+     * @throws \InvalidArgumentException
      */
     public function __isset($name)
     {
@@ -73,33 +73,12 @@ class ConfigObject implements \Iterator
     }
 
     /**
-     * @return Helper
-     */
-    public final function helper()
-    {
-        static $helper;
-
-        if (!$helper)
-        {
-            if (method_exists($this->builder, 'helper'))
-            {
-                $helper = $this->builder->helper();
-            }
-            else
-            {
-                $builder = $this->builder;
-                $helper  = new Helper($builder);
-            }
-        }
-
-        return $helper;
-    }
-
-    /**
      * @param null|string $path
      * @param mixed       $default
      *
      * @return mixed
+     *
+     * @throws \InvalidArgumentException
      */
     public function get($path = null, $default = null)
     {
@@ -118,11 +97,7 @@ class ConfigObject implements \Iterator
     }
 
     /**
-     * Return the current element
-     *
-     * @link  http://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
-     * @since 5.0.0
+     * @inheritdoc
      */
     public function current()
     {
@@ -130,11 +105,7 @@ class ConfigObject implements \Iterator
     }
 
     /**
-     * Move forward to next element
-     *
-     * @link  http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
+     * @inheritdoc
      */
     public function next()
     {
@@ -142,11 +113,7 @@ class ConfigObject implements \Iterator
     }
 
     /**
-     * Return the key of the current element
-     *
-     * @link  http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
-     * @since 5.0.0
+     * @inheritdoc
      */
     public function key()
     {
@@ -154,12 +121,7 @@ class ConfigObject implements \Iterator
     }
 
     /**
-     * Checks if current position is valid
-     *
-     * @link  http://php.net/manual/en/iterator.valid.php
-     * @return boolean The return value will be casted to boolean and then evaluated.
-     *        Returns true on success or false on failure.
-     * @since 5.0.0
+     * @inheritdoc
      */
     public function valid()
     {
@@ -167,11 +129,7 @@ class ConfigObject implements \Iterator
     }
 
     /**
-     * Rewind the Iterator to the first element
-     *
-     * @link  http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
-     * @since 5.0.0
+     * @inheritdoc
      */
     public function rewind()
     {

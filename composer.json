@@ -8,7 +8,7 @@
     }
   ],
   "require": {
-    "deimos/helper": "~0.1"
+    "deimos/helper": "~0.2"
   },
   "autoload": {
     "psr-4": {

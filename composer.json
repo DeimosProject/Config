@@ -1,6 +1,13 @@
 {
   "name": "deimos/config",
+  "description": "Deimos Config.",
+  "keywords": [
+    "deimos",
+    "config"
+  ],
+  "homepage": "https://github.com/REZ1DENT3/DeimosConfig",
   "license": "MIT",
+  "type": "library",
   "authors": [
     {
       "name": "rez1dent3",
@@ -9,6 +16,10 @@
   ],
   "require": {
     "deimos/helper": "~0.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.7",
+    "codeclimate/php-test-reporter": "dev-master"
   },
   "autoload": {
     "psr-4": {

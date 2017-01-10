@@ -75,6 +75,8 @@ class Config extends \ArrayIterator
      * @param $name
      *
      * @return bool
+     *
+     * @throws \InvalidArgumentException
      */
     public function __isset($name)
     {

@@ -20,11 +20,6 @@ class Config extends \ArrayIterator
     protected $configure = [];
 
     /**
-     * @var Builder
-     */
-    protected $builder;
-
-    /**
      * ConfigObject constructor.
      *
      * @param         $rootDir

@@ -27,7 +27,7 @@ class Config extends \ArrayIterator
      */
     public function __construct($rootDir, Builder $builder)
     {
-        $this->rootDir = rtrim($rootDir, '/') . '/';
+        $this->rootDir = rtrim($rootDir, '\\/') . '/';
         $this->builder = $builder;
 
         parent::__construct();
@@ -99,7 +99,7 @@ class Config extends \ArrayIterator
      */
     protected function getPath($name)
     {
-        return $this->rootDir . 'config/' . $name . '.php';
+        return $this->rootDir . $name . '.php';
     }
 
     /**

@@ -45,7 +45,7 @@ class ConfigTest extends TestsSetUp
     /**
      * @expectedException \BadFunctionCallException
      */
-    public function testMagicSetException($helper = false)
+    public function testMagicSetException()
     {
         $this->config->db = 'failed';
     }
@@ -53,7 +53,7 @@ class ConfigTest extends TestsSetUp
     /**
      * @expectedException \BadFunctionCallException
      */
-    public function testMagicSetException2($helper = false)
+    public function testMagicSetException2()
     {
         $this->config->db->dsn = 'failed';
     }
@@ -61,7 +61,7 @@ class ConfigTest extends TestsSetUp
     /**
      * @expectedException \BadFunctionCallException
      */
-    public function testMagicSetExceptionBuilder($helper = false)
+    public function testMagicSetExceptionBuilder()
     {
         $this->hConfig->db = 'failed';
     }
@@ -69,7 +69,7 @@ class ConfigTest extends TestsSetUp
     /**
      * @expectedException \BadFunctionCallException
      */
-    public function testMagicSetException2Builder($helper = false)
+    public function testMagicSetException2Builder()
     {
         $this->hConfig->db->dsn = 'failed';
     }

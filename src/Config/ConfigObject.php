@@ -3,6 +3,7 @@
 namespace Deimos\Config;
 
 use Deimos\Builder\Builder;
+use Deimos\Helper\Traits\Helper;
 
 class ConfigObject implements \Iterator
 {

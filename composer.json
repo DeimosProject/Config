@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "deimos/helper": "~0.2"
+    "deimos/helper": "~0.3"
   },
   "require-dev": {
     "phpunit/phpunit": "~5.7",

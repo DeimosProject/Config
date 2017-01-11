@@ -20,9 +20,9 @@ class Config extends \ArrayIterator
     protected $configure = [];
 
     /**
-     * ConfigObject constructor.
+     * Config constructor.
      *
-     * @param         $rootDir
+     * @param string  $rootDir
      * @param Builder $builder
      */
     public function __construct($rootDir, Builder $builder)
@@ -93,7 +93,7 @@ class Config extends \ArrayIterator
     }
 
     /**
-     * @param $name string
+     * @param string $name
      *
      * @return string
      */

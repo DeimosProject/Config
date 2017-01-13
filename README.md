@@ -1,5 +1,5 @@
 # DeimosConfig
 
-[![Code Climate](https://codeclimate.com/github/REZ1DENT3/DeimosConfig/badges/gpa.svg)](https://codeclimate.com/github/REZ1DENT3/DeimosConfig)
-[![Test Coverage](https://codeclimate.com/github/REZ1DENT3/DeimosConfig/badges/coverage.svg)](https://codeclimate.com/github/REZ1DENT3/DeimosConfig/coverage)
-[![Issue Count](https://codeclimate.com/github/REZ1DENT3/DeimosConfig/badges/issue_count.svg)](https://codeclimate.com/github/REZ1DENT3/DeimosConfig)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/REZ1DENT3/DeimosConfig/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/REZ1DENT3/DeimosConfig/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/REZ1DENT3/DeimosConfig/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/REZ1DENT3/DeimosConfig/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/REZ1DENT3/DeimosConfig/badges/build.png?b=master)](https://scrutinizer-ci.com/g/REZ1DENT3/DeimosConfig/build-status/master)

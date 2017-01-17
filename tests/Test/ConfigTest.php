@@ -15,15 +15,15 @@ class ConfigTest extends TestsSetUp
 
         $this->assertEquals(
             'conn',
-            $db->get('dsn')
+            $db->getRequired('dsn')
         );
         $this->assertEquals(
             'root',
-            $db->get('login')
+            $db->getRequired('login')
         );
         $this->assertEquals(
             '',
-            $db->get('password')
+            $db->getRequired('password')
         );
         $options = $db->get('options');
         $this->assertEquals(

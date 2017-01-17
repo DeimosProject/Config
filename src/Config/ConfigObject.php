@@ -98,6 +98,25 @@ class ConfigObject implements \Iterator
     }
 
     /**
+     * @param $path
+     *
+     * @return array|mixed
+     *
+     * @throws \Deimos\Helper\Exceptions\ExceptionEmpty
+     * @throws \InvalidArgumentException
+     */
+    public function getRequired($path)
+    {
+        if (!$this->loaded)
+        {
+            $this->rewind();
+        }
+
+        return $this->helper()->arr()
+            ->getRequired($this->storage, $path);
+    }
+
+    /**
      * @inheritdoc
      */
     public function current()

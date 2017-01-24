@@ -21,10 +21,17 @@ class Config extends \ArrayIterator
     protected $configure = [];
 
     /**
+     * @var ConfigObject
+     */
+    protected $parameters;
+
+    /**
      * Config constructor.
      *
      * @param string  $rootDir
      * @param Builder $builder
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct($rootDir, Builder $builder)
     {
@@ -32,6 +39,11 @@ class Config extends \ArrayIterator
         $this->builder = $builder;
 
         parent::__construct();
+
+        if ($this->exists('_deimos'))
+        {
+            $this->parameters = $this->get('_deimos');
+        }
     }
 
     /**
@@ -121,7 +133,11 @@ class Config extends \ArrayIterator
             $builder    = $this->builder;
             $pathString = $this->getPath($configName);
 
-            $this->configure[$configName] = new ConfigObject($builder, $pathString);
+            $this->configure[$configName] = new ConfigObject(
+                $builder,
+                $pathString,
+                $this->parameters
+            );
         }
 
         /**

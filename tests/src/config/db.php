@@ -4,12 +4,10 @@
 // $config->get('db')->get() -- array
 return [
     // $config->get('db')->get('dsn')
-    'dsn' => 'conn',
-    'login' => 'root',
-    'password' => '',
+    'dsn'      => '%db.dsn%',
+    'login'    => '%db.login%',
+    'password' => '%db.password%',
 
     // $config->get('db:options.hello')
-    'options' => [
-        'hello' => 'world'
-    ]
+    'options'  => '%db.options%'
 ];

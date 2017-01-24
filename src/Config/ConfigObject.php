@@ -26,13 +26,20 @@ class ConfigObject implements \Iterator
     protected $storage = array();
 
     /**
+     * @var self
+     */
+    protected $parameters;
+
+    /**
      * ConfigObject constructor.
      *
      * @param Builder $builder
      * @param string  $configPath
+     * @param self    $parameters
      */
-    public function __construct($builder, $configPath)
+    public function __construct($builder, $configPath, self $parameters = null)
     {
+        $this->parameters = $parameters;
         $this->configPath = $configPath;
         $this->builder    = $builder;
         $this->loaded     = false;
@@ -149,6 +156,31 @@ class ConfigObject implements \Iterator
     }
 
     /**
+     * walk parameters
+     *
+     * @return bool
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function walk()
+    {
+        if ($this->parameters instanceof self)
+        {
+            return array_walk_recursive($this->storage, function (&$value)
+            {
+                if ($value{0} === '%' && $value{strlen($value) - 1} === '%')
+                {
+                    $key = substr($value, 1, -1);
+
+                    $value = $this->parameters->get($key);
+                }
+            });
+        }
+
+        return false;
+    }
+
+    /**
      * @inheritdoc
      */
     public function rewind()
@@ -157,6 +189,8 @@ class ConfigObject implements \Iterator
         {
             $this->loaded  = true;
             $this->storage = require $this->configPath;
+
+            $this->walk();
         }
 
         reset($this->storage);

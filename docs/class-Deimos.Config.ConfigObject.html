@@ -49,10 +49,6 @@
 			</ul>
 
 
-			<h3>Traits</h3>
-			<ul>
-				<li><a href="class-Deimos.Config.Helper.html">Helper</a></li>
-			</ul>
 
 
 
@@ -112,7 +108,8 @@
 				<a href="class-Iterator.html"><span>Iterator</span></a>
 			
 			 uses 
-					<a href="class-Deimos.Config.Helper.html"><span>Deimos\Config\Helper</span></a>
+					Deimos\Helper\Traits\Helper (not available)
+
 			
 		</dd>
 	</dl>
@@ -130,7 +127,7 @@
 		<b>Namespace:</b> <a href="namespace-Deimos.html">Deimos</a>\<a href="namespace-Deimos.Config.html">Config</a><br>
 		
 
-			<b>Located at</b> <a href="source-class-Deimos.Config.ConfigObject.html#7-145" title="Go to source code">Config/ConfigObject.php</a>
+			<b>Located at</b> <a href="source-class-Deimos.Config.ConfigObject.html#8-199" title="Go to source code">Config/ConfigObject.php</a>
 		<br>
 	</div>
 
@@ -150,7 +147,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#27-38" title="Go to source code">__construct</a>( <span>Deimos\Builder\Builder <var>$builder</var></span>, <span>string <var>$configPath</var></span> )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#33-46" title="Go to source code">__construct</a>( <span>Deimos\Builder\Builder <var>$builder</var></span>, <span>string <var>$configPath</var></span>, <span><code><a href="class-Deimos.Config.ConfigObject.html">Deimos\Config\ConfigObject</a></code> <var>$parameters</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			<p>ConfigObject constructor.</p>
@@ -165,6 +162,8 @@
 					<dt><var>$builder</var></dt>
 					<dd></dd>
 					<dt><var>$configPath</var></dt>
+					<dd></dd>
+					<dt><var>$parameters</var></dt>
 					<dd></dd>
 				</dl></div>
 
@@ -187,7 +186,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___get">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#40-50" title="Go to source code">__get</a>( <span> <var>$path</var></span> )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#48-58" title="Go to source code">__get</a>( <span> <var>$path</var></span> )</code>
 
 		<div class="description short">
 			
@@ -230,7 +229,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___set">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#52-61" title="Go to source code">__set</a>( <span> <var>$name</var></span>, <span> <var>$value</var></span> )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#60-69" title="Go to source code">__set</a>( <span> <var>$name</var></span>, <span> <var>$value</var></span> )</code>
 
 		<div class="description short">
 			
@@ -271,7 +270,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#___isset">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#63-73" title="Go to source code">__isset</a>( <span> <var>$name</var></span> )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#71-81" title="Go to source code">__isset</a>( <span> <var>$name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -314,7 +313,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#75-97" title="Go to source code">get</a>( <span>null|string <var>$path</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">null</span></span> )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#83-105" title="Go to source code">get</a>( <span>null|string <var>$path</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$default</var> = <span class="php-keyword1">null</span></span> )</code>
 
 		<div class="description short">
 			
@@ -347,6 +346,50 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="getRequired" id="_getRequired">
+
+		<td class="attributes"><code>
+			 public 
+
+			array|mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getRequired">#</a>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#107-124" title="Go to source code">getRequired</a>( <span> <var>$path</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					array|mixed
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					Deimos\Helper\Exceptions\ExceptionEmpty<br>
+					<code><a href="class-InvalidArgumentException.html">InvalidArgumentException</a></code>
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="current" id="_current">
 
 		<td class="attributes"><code>
@@ -359,7 +402,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_current">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#99-105" title="Go to source code">current</a>( )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#126-132" title="Go to source code">current</a>( )</code>
 
 		<div class="description short">
 			
@@ -394,7 +437,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_next">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#107-113" title="Go to source code">next</a>( )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#134-140" title="Go to source code">next</a>( )</code>
 
 		<div class="description short">
 			
@@ -429,7 +472,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_key">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#115-121" title="Go to source code">key</a>( )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#142-148" title="Go to source code">key</a>( )</code>
 
 		<div class="description short">
 			
@@ -464,7 +507,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_valid">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#123-129" title="Go to source code">valid</a>( )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#150-156" title="Go to source code">valid</a>( )</code>
 
 		<div class="description short">
 			
@@ -487,6 +530,44 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="walk" id="_walk">
+
+		<td class="attributes"><code>
+			 protected 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_walk">#</a>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#158-181" title="Go to source code">walk</a>( )</code>
+
+		<div class="description short">
+			<p>walk parameters</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>walk parameters</p>
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					boolean
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-InvalidArgumentException.html">InvalidArgumentException</a></code>
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="rewind" id="_rewind">
 
 		<td class="attributes"><code>
@@ -499,7 +580,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_rewind">#</a>
-		<code><a href="source-class-Deimos.Config.ConfigObject.html#131-143" title="Go to source code">rewind</a>( )</code>
+		<code><a href="source-class-Deimos.Config.ConfigObject.html#183-197" title="Go to source code">rewind</a>( )</code>
 
 		<div class="description short">
 			
@@ -525,14 +606,6 @@
 	</table>
 
 
-	<table class="summary used">
-	<caption>Methods used from <a href="class-Deimos.Config.Helper.html#methods">Deimos\Config\Helper</a></caption>
-	<tr>
-		<td><code>
-			<a href="class-Deimos.Config.Helper.html#_helper">helper()</a>
-		</code></td>
-	</tr>
-	</table>
 
 
 
@@ -552,7 +625,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Deimos.Config.ConfigObject.html#12-15" title="Go to source code"><var>$configPath</var></a>
+				<a href="source-class-Deimos.Config.ConfigObject.html#13-16" title="Go to source code"><var>$configPath</var></a>
 
 			<div class="description short">
 				
@@ -577,7 +650,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Deimos.Config.ConfigObject.html#17-20" title="Go to source code"><var>$loaded</var></a>
+				<a href="source-class-Deimos.Config.ConfigObject.html#18-21" title="Go to source code"><var>$loaded</var></a>
 
 			<div class="description short">
 				
@@ -602,7 +675,7 @@
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-Deimos.Config.ConfigObject.html#22-25" title="Go to source code"><var>$storage</var></a>
+				<a href="source-class-Deimos.Config.ConfigObject.html#23-26" title="Go to source code"><var>$storage</var></a>
 
 			<div class="description short">
 				
@@ -620,17 +693,34 @@
 			</div>
 		</td>
 	</tr>
-	</table>
-
-
-	<table class="summary used">
-	<caption>Properties used from <a href="class-Deimos.Config.Helper.html#properties">Deimos\Config\Helper</a></caption>
-	<tr>
-		<td><code>
-			<a href="class-Deimos.Config.Helper.html#$builder"><var>$builder</var></a>
+	<tr data-order="parameters" id="$parameters">
+		<td class="attributes"><code>
+			protected  
+			<code><a href="class-Deimos.Config.ConfigObject.html">Deimos\Config\ConfigObject</a></code>
 		</code></td>
+
+		<td class="name">
+				<a href="source-class-Deimos.Config.ConfigObject.html#28-31" title="Go to source code"><var>$parameters</var></a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$parameters" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
 	</tr>
 	</table>
+
+
 
 
 

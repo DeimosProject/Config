@@ -116,6 +116,25 @@ class Config extends \ArrayIterator
     }
 
     /**
+     * @param string $name
+     *
+     * @return ConfigObject
+     */
+    protected function configure($name)
+    {
+        if (!isset($this->configure[$name]))
+        {
+            $this->configure[$name] = new ConfigObject(
+                $this->builder,
+                $this->getPath($name),
+                $this->parameters
+            );
+        }
+
+        return $this->configure[$name];
+    }
+
+    /**
      * @param $name
      *
      * @return ConfigObject|mixed
@@ -128,29 +147,14 @@ class Config extends \ArrayIterator
         $configName = current($slice);
         $path       = next($slice);
 
-        if (!isset($this->configure[$configName]))
-        {
-            $builder    = $this->builder;
-            $pathString = $this->getPath($configName);
-
-            $this->configure[$configName] = new ConfigObject(
-                $builder,
-                $pathString,
-                $this->parameters
-            );
-        }
-
-        /**
-         * @var $configObject ConfigObject
-         */
-        $configObject = $this->configure[$configName];
+        $configure = $this->configure($configName);
 
         if ($path !== false)
         {
-            return $configObject->get($path);
+            return $configure->get($path);
         }
 
-        return $configObject;
+        return $configure;
     }
 
 }

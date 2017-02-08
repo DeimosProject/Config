@@ -13,7 +13,7 @@ class ConfigObject implements \Iterator
     /**
      * @var string
      */
-    protected $configPath;
+    protected $config;
 
     /**
      * @var bool
@@ -33,14 +33,14 @@ class ConfigObject implements \Iterator
     /**
      * ConfigObject constructor.
      *
-     * @param Builder $builder
-     * @param string  $configPath
-     * @param self    $parameters
+     * @param Builder      $builder
+     * @param array|string $config
+     * @param self         $parameters
      */
-    public function __construct($builder, $configPath, self $parameters = null)
+    public function __construct($builder, $config, self $parameters = null)
     {
         $this->parameters = $parameters;
-        $this->configPath = $configPath;
+        $this->config     = $config;
         $this->builder    = $builder;
         $this->loaded     = false;
     }
@@ -187,8 +187,20 @@ class ConfigObject implements \Iterator
     {
         if (!$this->loaded)
         {
-            $this->loaded  = true;
-            $this->storage = require $this->configPath;
+            $this->loaded = true;
+
+            if (is_string($this->config))
+            {
+                $this->storage = require $this->config;
+            }
+            else if (is_array($this->config))
+            {
+                $this->storage = $this->config;
+            }
+            else
+            {
+                throw new \InvalidArgumentException(__METHOD__);
+            }
 
             $this->walk();
         }

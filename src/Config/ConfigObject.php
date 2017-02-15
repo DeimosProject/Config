@@ -105,6 +105,26 @@ class ConfigObject implements \Iterator
     }
 
     /**
+     * @param string $path
+     *
+     * @return static
+     *
+     * @throws \Deimos\Helper\Exceptions\ExceptionEmpty
+     * @throws \InvalidArgumentException
+     */
+    public function slice($path)
+    {
+        $config = $this->getRequired($path);
+
+        if (!is_array($config))
+        {
+            throw new \InvalidArgumentException('Data is not array');
+        }
+
+        return new static($this->builder, $config, $this->parameters);
+    }
+
+    /**
      * @param $path
      *
      * @return array|mixed

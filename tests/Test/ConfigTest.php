@@ -7,9 +7,9 @@ use DeimosTest\TestsSetUp;
 class ConfigTest extends TestsSetUp
 {
 
-    public function testConfig($helper = false)
+    public function testConfig()
     {
-        $config = $helper ? $this->hConfig : $this->config;
+        $config = $this->config;
 
         $db = $config->get('db');
 
@@ -25,58 +25,26 @@ class ConfigTest extends TestsSetUp
             '',
             $db->getRequired('password')
         );
-        $options = $db->get('options');
+        $options = $db->getData('options');
         $this->assertEquals(
             'world',
             $options['hello']
         );
     }
 
-    public function testMagicGet($helper = false)
+    public function testMagicGet()
     {
-        $config = $helper ? $this->hConfig : $this->config;
+        $config = $this->config;
 
         $this->assertEquals(
-            $config->db->dsn,
+            $config->get('db')->dsn,
             $config->get('db:dsn')
         );
     }
 
-    /**
-     * @expectedException \BadFunctionCallException
-     */
-    public function testMagicSetException()
+    public function testTree()
     {
-        $this->config->db = 'failed';
-    }
-
-    /**
-     * @expectedException \BadFunctionCallException
-     */
-    public function testMagicSetException2()
-    {
-        $this->config->db->dsn = 'failed';
-    }
-
-    /**
-     * @expectedException \BadFunctionCallException
-     */
-    public function testMagicSetExceptionBuilder()
-    {
-        $this->hConfig->db = 'failed';
-    }
-
-    /**
-     * @expectedException \BadFunctionCallException
-     */
-    public function testMagicSetException2Builder()
-    {
-        $this->hConfig->db->dsn = 'failed';
-    }
-
-    public function testTree($helper = false)
-    {
-        $config = $helper ? $this->hConfig : $this->config;
+        $config = $this->config;
 
         $this->assertEquals(
             'conn',
@@ -106,15 +74,14 @@ class ConfigTest extends TestsSetUp
         );
     }
 
-    public function testExist($helper = false)
+    public function testExist()
     {
-        $config = $helper ? $this->hConfig : $this->config;
+        $config = $this->config;
 
-        $this->assertTrue(isset($config->tree));
-        $this->assertFalse(isset($config->missing));
         $this->assertTrue($config->exists('tree'));
-        $this->assertFalse(isset($config->db->missing));
-        $this->assertTrue(isset($config->db->dsn));
+        $this->assertFalse($config->exists('tree123'));
+        $this->assertFalse(isset($config->get('db')->missing));
+        $this->assertTrue(isset($config->get('db')->dsn));
 
         $this->assertEquals(
             [
@@ -122,7 +89,7 @@ class ConfigTest extends TestsSetUp
                 '一',
                 '二'
             ],
-            $config->get('small')->get()
+            $config->get('small')->asArray()
         );
 
         $small = $config->get('small');
@@ -160,14 +127,6 @@ class ConfigTest extends TestsSetUp
         $this->assertTrue($small->valid());
         $small->next();
         $this->assertFalse($small->valid());
-    }
-
-    public function testHelperBuilder()
-    {
-        $this->testConfig(true);
-        $this->testMagicGet(true);
-        $this->testTree(true);
-        $this->testExist(true);
     }
 
 }

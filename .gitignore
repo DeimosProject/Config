@@ -3,3 +3,6 @@ composer.lock
 /vendor/
 .idea/
 build/
+/demo/json/directories2.json
+/demo/php/directories2.php
+/demo/yml/directories2.yml

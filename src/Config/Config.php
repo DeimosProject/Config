@@ -2,159 +2,243 @@
 
 namespace Deimos\Config;
 
-use Deimos\Builder\Builder;
-use Deimos\Helper\Traits\Helper;
+use Deimos\Helper\Helper;
+use Deimos\Slice\Iterator;
+use Deimos\Slice\Slice;
 
-class Config extends \ArrayIterator
+const PHP  = 1;
+const YML  = 2;
+const JSON = 3;
+
+class Config extends Iterator
 {
 
-    use Helper;
+    /**
+     * @var int
+     */
+    protected $type;
+
+    /**
+     * @var bool
+     */
+    protected $withParameters;
 
     /**
      * @var string
      */
-    protected $rootDir;
+    protected $root;
 
     /**
-     * @var array
-     */
-    protected $configure = [];
-
-    /**
-     * @var ConfigObject
+     * @var Slice|array
      */
     protected $parameters;
 
     /**
+     * @var array
+     */
+    protected $extensions = [
+        PHP  => '.php',
+        YML  => '.yml',
+        JSON => '.json',
+    ];
+
+    /**
      * Config constructor.
      *
-     * @param string  $rootDir
-     * @param Builder $builder
+     * @param Helper $helper
+     * @param string $root
+     * @param array  $options
      *
-     * @throws \InvalidArgumentException
+     * @throws Exceptions\PermissionDenied
      */
-    public function __construct($rootDir, Builder $builder)
+    public function __construct(Helper $helper, $root, array $options = [])
     {
-        $this->rootDir = rtrim($rootDir, '\\/') . '/';
-        $this->builder = $builder;
+        $this->helper = $helper;
+        $this->type   = $options['extension'] ?? PHP;
 
-        parent::__construct();
+        $this->withParameters =
+            array_key_exists('withParameters', $options)
+                ? $options['withParameters']
+                : true;
 
-        if ($this->exists('_deimos'))
+        $this->root = realpath($root) . '/';
+
+        if (!$this->root)
         {
-            $this->parameters = $this->get('_deimos');
+            throw new Exceptions\PermissionDenied($root);
+        }
+
+        if ($this->withParameters)
+        {
+            $filePath = $this->filePath('_deimos');
+
+            if ($filePath)
+            {
+                $slice = $this->slice($filePath);
+
+                $this->setParameters($slice);
+            }
         }
     }
 
     /**
-     * @param $name
+     * @param Slice|array $parameters
      *
-     * @return array
+     * @return $this
      */
-    protected function slice($name)
+    public function setParameters($parameters)
     {
-        return explode(':', $name);
+        $this->parameters     = $parameters;
+        $this->withParameters = !empty($this->parameters);
+
+        return $this;
     }
 
     /**
-     * @param $name
-     *
-     * @return ConfigObject|mixed
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __get($name)
-    {
-        return $this->get($name);
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     *
-     * @throws \BadFunctionCallException
-     */
-    public function __set($name, $value)
-    {
-        throw new \BadFunctionCallException(__METHOD__);
-    }
-
-    /**
-     * @param $name
-     *
-     * @return bool
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function __isset($name)
-    {
-        return $this->exists($name);
-    }
-
-    /**
-     * @param $name
-     *
-     * @return bool
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function exists($name)
-    {
-        $path = $this->getPath($name);
-
-        return $this->helper()->file()->isFile($path);
-    }
-
-    /**
-     * @param string $name
+     * @param string $file
      *
      * @return string
      */
-    protected function getPath($name)
+    protected function path($file)
     {
-        return $this->rootDir . $name . '.php';
+        return $this->root .
+            str_replace('.', '/', $file) .
+            $this->extensions[$this->type];
     }
 
     /**
-     * @param string $name
+     * @param string $file
      *
-     * @return ConfigObject
+     * @return bool|string
      */
-    protected function configure($name)
+    protected function filePath($file)
     {
-        if (!isset($this->configure[$name]))
+        return realpath($this->path($file));
+    }
+
+    /**
+     * @param string $file
+     *
+     * @return bool
+     */
+    public function exists($file)
+    {
+        return $this->filePath($file) !== false;
+    }
+
+    /**
+     * @param string $file
+     *
+     * @return mixed
+     * @throws Exceptions\TypeNotFound
+     */
+    protected function requireFile($file)
+    {
+        switch ($this->type)
         {
-            $this->configure[$name] = new ConfigObject(
-                $this->builder,
-                $this->getPath($name),
-                $this->parameters
+            case PHP:
+                return require $file;
+
+            case YML:
+                return \Symfony\Component\Yaml\Yaml::parse(file_get_contents($file));
+
+            case JSON:
+                return $this->helper->json()->decode(file_get_contents($file));
+        }
+
+        throw new Exceptions\TypeNotFound();
+    }
+
+    /**
+     * @param string      $path
+     * @param array|Slice $data
+     *
+     * @return bool|int
+     * @throws Exceptions\TypeNotFound
+     */
+    public function saveFile($path, $data)
+    {
+        $storage = $data;
+
+        if ($data instanceof Slice)
+        {
+            $storage = $data->asArray();
+        }
+
+        switch ($this->type)
+        {
+            case PHP:
+                $result = '<?php'
+                    . PHP_EOL
+                    . PHP_EOL .
+                    'return ' . var_export($storage, true) . ';';
+                break;
+
+            case YML:
+                $result = \Symfony\Component\Yaml\Yaml::dump($storage);
+                break;
+
+            case JSON:
+                $json = clone $this->helper->json();
+                $json->addOption(JSON_PRETTY_PRINT);
+                $result = $json->encode($storage);
+                break;
+
+            default:
+                throw new Exceptions\TypeNotFound($this->type);
+        }
+
+        $filePath = $this->path($path);
+
+        return file_put_contents($filePath, $result);
+    }
+
+    /**
+     * @param string $file
+     *
+     * @return Slice
+     */
+    protected function slice($file)
+    {
+        if (empty($this->storage[$file]))
+        {
+            $require = $this->requireFile($file);
+
+            $this->storage[$file] = new Slice(
+                $this->helper,
+                $require,
+                $this->withParameters ? $this->parameters : null
             );
         }
 
-        return $this->configure[$name];
+        return $this->storage[$file];
     }
 
     /**
-     * @param $name
+     * @param string $path
      *
-     * @return ConfigObject|mixed
-     *
-     * @throws \InvalidArgumentException
+     * @return Slice|mixed
+     * @throws Exceptions\PermissionDenied
+     * @throws \Deimos\Helper\Exceptions\ExceptionEmpty
      */
-    public function get($name)
+    public function get($path)
     {
-        $slice      = $this->slice($name);
-        $configName = current($slice);
-        $path       = next($slice);
+        $data = explode(':', $path, 2);
+        $file = $this->filePath($data[0]);
 
-        $configure = $this->configure($configName);
-
-        if ($path !== false)
+        if (!$file)
         {
-            return $configure->get($path);
+            throw new Exceptions\PermissionDenied($data[0]);
         }
 
-        return $configure;
+        $slice = $this->slice($file);
+
+        if (!empty($data[1]))
+        {
+            return $slice->getData($data[1]);
+        }
+
+        return $slice;
     }
 
 }

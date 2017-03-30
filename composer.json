@@ -5,21 +5,21 @@
     "deimos",
     "config"
   ],
-  "homepage": "https://github.com/REZ1DENT3/DeimosConfig",
+  "homepage": "https://github.com/DeimosProject/Config",
   "license": "MIT",
   "type": "library",
   "authors": [
     {
       "name": "rez1dent3",
-      "email": "maksim.babichev95@gmail.com"
+      "email": "info@babichev.net"
     }
   ],
   "require": {
-    "deimos/helper": "~1.0"
+    "deimos/slice": "~1.0",
+    "symfony/yaml": "^3.2"
   },
   "require-dev": {
-    "phpunit/phpunit": "5.7.5",
-    "codeclimate/php-test-reporter": "dev-master"
+    "phpunit/phpunit": "5.7.5"
   },
   "autoload": {
     "psr-4": {

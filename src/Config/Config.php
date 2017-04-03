@@ -194,6 +194,20 @@ class Config extends Iterator
     }
 
     /**
+     * @param array $storage
+     *
+     * @return Slice
+     */
+    public function make(array $storage)
+    {
+        return new Slice(
+            $this->helper,
+            $storage,
+            $this->withParameters ? $this->parameters : null
+        );
+    }
+    
+    /**
      * @param string $file
      *
      * @return Slice
@@ -204,11 +218,7 @@ class Config extends Iterator
         {
             $require = $this->requireFile($file);
 
-            $this->storage[$file] = new Slice(
-                $this->helper,
-                $require,
-                $this->withParameters ? $this->parameters : null
-            );
+            $this->storage[$file] = $this->make($require);
         }
 
         return $this->storage[$file];
